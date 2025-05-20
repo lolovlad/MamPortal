@@ -46,6 +46,7 @@ class EventService:
             date_stop=target.date_stop,
             id_city=target.id_city,
             address=target.address,
+            description_lite=target.description_lite,
             name=target.name,
             description=target.description.encode("utf-8"),
             id_state=state.id

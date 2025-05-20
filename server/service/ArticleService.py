@@ -46,7 +46,7 @@ class ArticleService:
             id_autor=user.id,
             date_publications=datetime.now(),
             id_type=target.id_type,
-
+            description_lite=target.description_lite,
             name=target.name,
             description=target.description.encode("utf-8"),
         )

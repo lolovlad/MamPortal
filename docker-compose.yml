@@ -1,29 +1,26 @@
 version: "3.7"
 services:
-  #web:
-  #  container_name: nginx-python
-  #  image: nginx:latest
-  #  depends_on:
-  #    - app
-  #  ports:
-  #    - 8085:80
-  #    - 8082:443
-  #  volumes:
-  #    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-  #    - /etc/ssl/certs/cloud_aggreko.crt:/etc/nginx/ssl/certs/cloud_aggreko.crt
-  #    - /etc/ssl/private/cloud_aggreko.key:/etc/nginx/ssl/private/cloud_aggreko.key
-  #  networks:
-  #    - default
-  #app:
-  #  build:
-  #    context: .
-  #    dockerfile: Dockerfile
-  #  container_name: app_document
-  #  ports:
-  #    - 9999:8000
-  #  command: [ "/app/docker/app.sh" ]
-  #  env_file:
-  #    - .env-deploy
+  web:
+    container_name: nginx-python-mamportal
+    image: nginx:latest
+    depends_on:
+      - app
+    ports:
+      - 8085:80
+    networks:
+      - default
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_document
+    depends_on:
+      - db-main
+    ports:
+      - 9999:8000
+    command: [ "/app/docker/app.sh" ]
+    env_file:
+      - .env
 
   db-main:
     image: postgres:latest

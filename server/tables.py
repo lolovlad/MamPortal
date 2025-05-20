@@ -114,6 +114,7 @@ class Article(base):
     type = relationship("TypeArticle", lazy="joined")
 
     name = Column(String(255), nullable=False)
+    description_lite = Column(Text, nullable=False, server_default=str(""))
     description = Column(LargeBinary, nullable=True, default=b'')
     tags = relationship(Tag, secondary="tag_article", lazy="joined")
 
@@ -154,6 +155,7 @@ class Event(base):
 
     address = Column(String(255), nullable=False)
     name = Column(String(255), nullable=False)
+    description_lite = Column(Text, nullable=False, server_default=str(""))
     description = Column(LargeBinary, nullable=True, default=b'')
 
     id_state = Column(Integer, ForeignKey("state_event.id"))

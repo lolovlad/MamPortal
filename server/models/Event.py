@@ -17,6 +17,7 @@ class BaseEvent(BaseModel):
     id_city: int
     address: str
     name: str
+    description_lite: str
 
 
 class PostEvent(BaseEvent):

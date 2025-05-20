@@ -6,6 +6,7 @@ from datetime import datetime
 
 class BaseArticle(BaseModel):
     name: str
+    description_lite: str
     id_type: int
 
 
