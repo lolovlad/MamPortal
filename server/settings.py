@@ -38,4 +38,4 @@ class Settings(BaseSettings):
     root_path: str = os.path.dirname(os.path.abspath(__file__))
 
 
-settings = Settings(_env_file='./.env', _env_file_encoding='utf-8')
+settings = Settings(_env_file='./.env-test', _env_file_encoding='utf-8')

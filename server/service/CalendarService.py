@@ -39,24 +39,31 @@ class CalendarService:
 
         await self.__calendar_repo.add(entity)
 
-    async def add_calendar_item(self, uuid_calendar: str, img: UploadFile, target: PostCalendarItem):
+    async def add_calendar_item(self, uuid_calendar: str, img: UploadFile | None, target: PostCalendarItem):
         calendar = await self.__calendar_repo.get_calendary_by_uuid(uuid_calendar)
         cl = calendar.calendar
+        if img:
+            ext = img.filename.split(".")[1]
+            dir_name = f"{calendar.uuid}/{str(uuid4())}"
+            file_key = f"{dir_name}.{ext}"
+            content = await img.read()
+            await self.__file_repo.upload_file(file_key,
+                                               content,
+                                               img.content_type)
 
-        ext = img.filename.split(".")[1]
-        dir_name = f"{calendar.uuid}/{str(uuid4())}"
-        file_key = f"{dir_name}.{ext}"
-        content = await img.read()
-        await self.__file_repo.upload_file(file_key,
-                                           content,
-                                           img.content_type)
-
-        cl[target.date.strftime("%Y-%m-%d")] = {
-            "date": target.date.strftime("%Y-%m-%d"),
-            "name": target.name,
-            "description": target.description,
-            "img": f"http://localhost:9000/calendar/{file_key}"
-        }
+            cl[target.date.strftime("%Y-%m-%d")] = {
+                "date": target.date.strftime("%Y-%m-%d"),
+                "name": target.name,
+                "description": target.description,
+                "img": f"http://localhost:9000/calendar/{file_key}"
+            }
+        else:
+            cl[target.date.strftime("%Y-%m-%d")] = {
+                "date": target.date.strftime("%Y-%m-%d"),
+                "name": target.name,
+                "description": target.description,
+                "img": None
+            }
 
         calendar.calendar = cl
 
@@ -89,8 +96,9 @@ class CalendarService:
     async def delete_calendar_item(self, uuid_calendar: str, date: str):
         calendar = await self.__calendar_repo.get_calendary_by_uuid(uuid_calendar)
         cl = calendar.calendar
-        name_img = '/'.join(cl[date]["img"].split("/")[-2:])
-        await self.__file_repo.delete_file(name_img)
+        if cl[date]["img"]:
+            name_img = '/'.join(cl[date]["img"].split("/")[-2:])
+            await self.__file_repo.delete_file(name_img)
         del cl[date]
 
         calendar.calendar = cl

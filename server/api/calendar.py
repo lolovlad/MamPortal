@@ -54,13 +54,14 @@ async def create_calendar(target: PostPregnancyCalendar,
     status.HTTP_406_NOT_ACCEPTABLE: {"model": Message},
     status.HTTP_500_INTERNAL_SERVER_ERROR: {"model": Message}
 })
-async def save_item_calendar(img: UploadFile,
-                             date: Annotated[str, Form()],
-                             description: Annotated[str, Form()],
-                             name: Annotated[str, Form()],
-                             uuid_calendar: str,
-                             current_user: UserGet = Depends(get_current_user),
-                             service: CalendarService = Depends()):
+async def save_item_calendar(
+        uuid_calendar: str,
+        date: Annotated[str, Form()],
+        description: Annotated[str, Form()],
+        name: Annotated[str, Form()],
+        img: Optional[UploadFile] = File(None),
+        current_user: UserGet = Depends(get_current_user),
+        service: CalendarService = Depends()):
     target = PostCalendarItem(
         name=name,
         description=description,

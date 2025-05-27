@@ -84,6 +84,8 @@ class UserService:
         for key in user_dict:
             if key != "password":
                 setattr(entity, key, user_dict[key])
+            if key == "birth_date":
+                entity.birth_date = datetime.strptime(user_dict[key], "%Y-%m-%d").date()
 
         if user.password is not None:
             entity.password = user.password

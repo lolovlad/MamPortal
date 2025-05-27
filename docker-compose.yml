@@ -1,26 +1,26 @@
 version: "3.7"
 services:
-  web:
-    container_name: nginx-python-mamportal
-    image: nginx:latest
-    depends_on:
-      - app
-    ports:
-      - 8085:80
-    networks:
-      - default
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: app_document
-    depends_on:
-      - db-main
-    ports:
-      - 9999:8000
-    command: [ "/app/docker/app.sh" ]
-    env_file:
-      - .env
+  #web:
+  #  container_name: nginx-python-mamportal
+  #  image: nginx:latest
+  #  depends_on:
+  #    - app
+  #  ports:
+  #    - 8085:80
+  #  networks:
+  #    - default
+  #app:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  container_name: app_document
+  #  depends_on:
+  #    - db-main
+  #  ports:
+  #    - 9999:8000
+  #  command: [ "/app/docker/app.sh" ]
+  #  env_file:
+  #    - .env
 
   db-main:
     image: postgres:latest

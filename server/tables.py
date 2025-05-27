@@ -76,6 +76,10 @@ class User(base):
     type = relationship("TypeUser", lazy="joined")
     icon = Column(String, nullable=True, default="account-icon-33.png")
 
+    mood_emoji = Column(String, nullable=True, server_default="😊")
+    birth_date = Column(Date, nullable=True, server_default=f"{datetime.now()}")
+    city = Column(String, nullable=True, server_default=f"Неизвестно")
+
     is_deleted = Column(Boolean, nullable=True, default=False)
 
     @property

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, UUID4, field_serializer
-from datetime import datetime
+from datetime import datetime, date
 
 
 class TypeUser(BaseModel):
@@ -18,6 +18,13 @@ class UserBase(BaseModel):
     surname: str | None
     patronymic: str | None
     phone: str | None
+    mood_emoji: str | None
+    city: str | None
+    birth_date: date | None
+
+    @field_serializer("birth_date")
+    def serialize_birth_date(self, birth_date: date | None, _info):
+        return birth_date.isoformat() if birth_date else None
 
 
 class UserGet(UserBase):
